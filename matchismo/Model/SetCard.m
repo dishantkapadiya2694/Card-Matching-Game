@@ -53,7 +53,7 @@
 
 +(NSArray *)validSymbols
 {
-    return @[@"▲", @"●", @"◼︎"];
+    return @[@"sqiuggle", @"diamond", @"oval"];
 }
 
 +(NSArray *)validColors
@@ -63,7 +63,7 @@
 
 +(NSArray *)validShadings
 {
-    return @[@"transparent", @"translucent", @"solid"];
+    return @[@"transparent", @"stripped", @"solid"];
 }
 
 -(void)setRank:(NSUInteger)count

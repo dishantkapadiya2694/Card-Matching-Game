@@ -9,10 +9,11 @@
 #import "SetCardGameViewController.h"
 #import "SetCardDeck.h"
 #import "SetCard.h"
+#import "SetCardView.h"
 
 @interface SetCardGameViewController()
 
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *cardButtons;
 
 
 @end
@@ -29,6 +30,31 @@
     self.Cards = self.cardButtons;
 }
 
+
+
+
+
+
+
+// New Code to draw the cards
+
+
+-(void)setPropertiesForCard:(Card *)card {
+    
+}
+
+
+// Code to draw card ends
+
+
+
+
+
+
+
+
+
+
 -(NSAttributedString *)titleForCard:(Card *)card
 {
     if(![card isKindOfClass:[SetCard class]])
@@ -41,6 +67,11 @@
     
 }
 
+
+
+-(UIImage *)backgroundImageForCard:(Card *)card {
+    return [UIImage imageNamed:card.isChosen? @"setcardfront" : @"setcardback"];
+}
 
 
 -(NSNumber *)getStrokeValueForCard:(SetCard *)card

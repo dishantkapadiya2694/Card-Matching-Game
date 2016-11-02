@@ -17,7 +17,11 @@
 @property (nonatomic) NSUInteger numberOfCardsToBeMatched;
 @property (strong, nonatomic) NSArray *Cards;
 
--(Deck *)createDeck;             // abstract
+
+// abstract
+-(Deck *)createDeck;
 -(NSAttributedString *)titleForCard:(Card *)card;
+-(UIImage *)backgroundImageForCard:(Card *)card;
+-(void)setPropertiesForCard:(Card *)card;
 @end
 

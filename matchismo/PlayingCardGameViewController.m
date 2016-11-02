@@ -36,5 +36,8 @@
     return [[NSAttributedString alloc] initWithString:@""];
 }
 
+-(UIImage *)backgroundImageForCard:(Card *)card {
+    return [UIImage imageNamed:card.isChosen? @"playingcardfront" : @"playingcardback"];
+}
 
 @end

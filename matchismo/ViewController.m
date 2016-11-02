@@ -12,6 +12,7 @@
 #import "SetCard.h"
 #import "CardMatchingGame.h"
 #import "GameHistoryViewController.h"
+#import "SetCardView.h"
 
 @interface ViewController ()
 
@@ -64,6 +65,13 @@
     [self updateUI];
 }
 
+- (IBAction)setCardTapped:(UITapGestureRecognizer *)sender {
+    [self.game chooseCardAtIndex:sender.view.tag];
+    [self updateUI];
+}
+
+
+
 -(void)updateCommentaryWithPoints{
     self.commentryTextView.text = [self.commentryTextView.text stringByAppendingString:[self.game.gameHistory lastObject]];
 }
@@ -72,8 +80,18 @@
     for (UIButton *cardButton in self.Cards){
         NSUInteger cardIndex = [self.Cards indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardIndex];
-        [cardButton setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
-        [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
+        if([card isKindOfClass:[PlayingCard class]]){
+            [cardButton setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
+            [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
+        } else {
+            SetCardView *newCard = (SetCardView *)cardButton;
+            SetCard *setCard = (SetCard *)card;
+            newCard.count = setCard.count;
+            newCard.symbol = setCard.symbol;
+            newCard.color = setCard.color;
+            newCard.shading = setCard.shading;
+            newCard.selected = setCard.isChosen;
+        }
         cardButton.enabled = !card.isMatched;
         self.scoreLabel.title = [NSString stringWithFormat:@"Score: %d",(int)self.game.score];
     }
@@ -86,12 +104,8 @@
 }
 
 -(UIImage *)backgroundImageForCard:(Card *)card {
-    if ([card isKindOfClass:[SetCard class]])
-        return [UIImage imageNamed:card.isChosen? @"setcardfront" : @"setcardback"];
-    else if([card isKindOfClass:[PlayingCard class]])
-        return [UIImage imageNamed:card.isChosen? @"playingcardfront" : @"playingcardback"];
-    else
-        return nil;
+    
+    return nil;
 }
 
 -(Deck *)createDeck
@@ -103,15 +117,14 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
         self.game = nil;
-        /*
         for (UIButton *cardButton in self.Cards){
             NSUInteger index = [self.Cards indexOfObject:cardButton];
             Card *card = [self.game cardAtIndex:index];
+            
             [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
             [cardButton setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
             cardButton.enabled = YES;
         }
-         */
         id garbage = self.game;
         [self updateUI];
         self.scoreLabel.title = @"Score: 0";
